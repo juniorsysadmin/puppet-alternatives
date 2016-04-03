@@ -1,8 +1,8 @@
 Puppet::Type.type(:alternative_entry).provide(:rpm) do
-  confine :osfamily => :redhat
-  defaultfor :osfamily => :redhat
+  confine osfamily: :redhat
+  defaultfor osfamily: :redhat
 
-  commands :alternatives => '/usr/sbin/alternatives'
+  commands alternatives: '/usr/sbin/alternatives'
 
   mk_resource_methods
 
@@ -24,14 +24,10 @@ Puppet::Type.type(:alternative_entry).provide(:rpm) do
   end
 
   def destroy
-    # rubocop:disable Style/RedundantBegin
-    begin
-      # rubocop::enable Style/RedundantBegin
-      alternatives('--remove', @resource.value(:altname), @resource.value(:name))
-      # rubocop:disable Lint/HandleExceptions
-    rescue
-      # rubocop:enable Lint/HandleExceptions
-    end
+    alternatives('--remove', @resource.value(:altname), @resource.value(:name))
+    # rubocop:disable Lint/HandleExceptions
+  rescue
+    # rubocop:enable Lint/HandleExceptions
   end
 
   def self.instances
@@ -65,7 +61,7 @@ Puppet::Type.type(:alternative_entry).provide(:rpm) do
 
     output.scan(ALT_RPM_QUERY_REGEX).map do |(path, priority)|
       altlink = File.readlines('/var/lib/alternatives/' + altname)[1].chomp
-      { :altname => altname, :altlink => altlink, :name => path, :priority => priority }
+      { altname: altname, altlink: altlink, name: path, priority: priority }
     end
   end
 

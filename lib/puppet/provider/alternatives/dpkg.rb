@@ -1,8 +1,8 @@
 Puppet::Type.type(:alternatives).provide(:dpkg) do
-  confine :osfamily => :debian
-  defaultfor :operatingsystem => [:debian, :ubuntu]
+  confine osfamily: :debian
+  defaultfor operatingsystem: [:debian, :ubuntu]
 
-  commands :update => 'update-alternatives'
+  commands update: 'update-alternatives'
 
   has_feature :mode
 
@@ -10,7 +10,7 @@ Puppet::Type.type(:alternatives).provide(:dpkg) do
   #
   # @return [Array<Puppet::Type::Alternatives::ProviderDpkg>] A list of all current provider instances
   def self.instances
-    all.map { |name, attributes| new(:name => name, :path => attributes[:path]) }
+    all.map { |name, attributes| new(name: name, path: attributes[:path]) }
   end
 
   # Generate a hash of hashes containing a link name and associated properties
@@ -20,12 +20,9 @@ Puppet::Type.type(:alternatives).provide(:dpkg) do
   # @return [Hash<String, Hash<Symbol, String>>]
   def self.all
     output = update('--get-selections')
-    # Ruby 1.8.7 does not have each_with_object
-    # rubocop:disable Style/EachWithObject
-    output.split(/\n/).inject({}) do |hash, line|
-      # rubocop:enable Style/EachWithObject
+    output.split(/\n/).each_with_object({}) do |hash, line|
       name, mode, path = line.split(/\s+/)
-      hash[name] = { :path => path, :mode => mode }
+      hash[name] = { path: path, mode: mode }
       hash
     end
   end

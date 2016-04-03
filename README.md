@@ -79,10 +79,10 @@ Creating a new alternative entry:
 
 - - -
 
-This module should work on any Debian and RHEL based distribution.
+This module should work on any Debian and RHEL based distribution using Ruby > 1.8.7
 
 Contact
 -------
 
-  * [Source code](https://github.com/voxpupuli/puppet-alternatives)
-  * [Issue tracker](https://github.com/voxpupuli/puppet-alternatives/issues)
+* [Source code](https://github.com/voxpupuli/puppet-alternatives)
+* [Issue tracker](https://github.com/voxpupuli/puppet-alternatives/issues)
